@@ -1,6 +1,6 @@
 import React from 'react'
 import EventItem from './EventItem'
-import classes from '../styles/EventList.module.css'
+import classes from '../../styles/EventList.module.css'
 export default function EventList({items}:{items:any}) {
   return (
     <ul className={classes.list}>

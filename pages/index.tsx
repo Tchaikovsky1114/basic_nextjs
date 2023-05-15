@@ -2,7 +2,7 @@ import Head from 'next/head'
 import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
 import { getFeaturedEvents } from '../data/dummy_data'
-import EventList from '@/events/EventList'
+import EventList from '@/components/events/EventList'
 
 const inter = Inter({ subsets: ['latin',] })
 
