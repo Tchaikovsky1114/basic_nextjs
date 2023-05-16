@@ -5,7 +5,7 @@ import Link from 'next/link'
 interface Props {
     children: React.ReactNode
     link?: string
-    onClick: () => void
+    onClick?: () => void
 }
 
 export default function Button({children,link,onClick}:Props) {

@@ -1,23 +1,26 @@
+import EventList from '@/components/events/EventList';
+import ResultsTitle from '@/components/events/ResultsTitle';
+import { getFilteredEvents } from '@/data/dummy_data';
 import { useRouter } from 'next/router'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 export default function FilteredEventsPage() {
   const router = useRouter();
   const { slug } = router.query as {slug:string[]};
+  const [events, setEvents] = useState<any>([]);
 
-  console.log(slug);
-  // export function getFilteredEvents(dateFilter: any) {
-  //   const { year, month } = dateFilter;
-  //   let filteredEvents = DUMMY_EVENTS.filter((event) => {
-  //     const eventDate = new Date(event.date);
-  //     return eventDate.getFullYear() === year && eventDate.getMonth() === month - 1;
-  //   });
-  //   return filteredEvents;
-  // }
-
+  useEffect(() => {
+    if (slug) {
+      const [year, month] = slug;
+      const filteredEvents = getFilteredEvents({year, month})
+      setEvents(filteredEvents);
+    }
+  }, [slug])
+  console.log(events);
   return (
-    <div>
-         <h1>FilteredEventsPage</h1>
-    </div>
+    <>
+      <ResultsTitle date={new Date(parseInt(slug[0]),parseInt(slug[1]))} />
+      <EventList items={events} />
+    </>
   )
 }
