@@ -1,8 +1,9 @@
 import React from 'react'
 import classes from './PreRendering.module.css'
-import { GetStaticProps } from 'next';
+import { GetStaticPropsContext, Redirect } from 'next';
 import fs from 'fs/promises';
 import path from 'path';
+import Link from 'next/link';
 
 interface Product {
   id: string;
@@ -23,10 +24,9 @@ export default function PreRendering(props: Props) {
       <ul>
         {
           products.map((product: Product) => (
-            <li key={product.id}>
-            <p>{product.name}</p>
-            <p>{product.price}원</p>
-            </li>
+            <Link href={`/max/${product.id}`} key={product.id}>
+              <p>{product.name}</p>
+            </Link>
           ))
         }
       </ul>
@@ -35,17 +35,30 @@ export default function PreRendering(props: Props) {
   )
 }
 
-export const getStaticProps: GetStaticProps = async (context) => {
+export const getStaticProps = async (context: GetStaticPropsContext) => {
   console.log('(PreRendering) getStaticProps');
   // CWD means current work directory
   const filePath = path.join(process.cwd(), 'dummy_backend.json'); 
   const jsonData = await fs.readFile(filePath);
   const data = JSON.parse(jsonData.toString());
   
+  if(!data) {
+    return {
+    redirect: {
+      destination: '/no-data'
+      }
+    }
+  }
+  if(data.products.length === 0) {
+    return {
+      notFound: true
+    }
+  }
   return {
     props: {
       products: data.products
     },
-    revalidate: 10
+    revalidate: 10,
+    
   };
 }
