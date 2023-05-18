@@ -9,9 +9,9 @@ interface Props {
 
 export default function ProductDetailPage({product}: Props) {
 
-    // if(!product) {
-    //     return <p>Loading...</p>
-    // }
+    if(!product) {
+        return <p>Loading...</p>
+    }
   return (
     <>
     <h1>Product name: {product.name}</h1>
@@ -19,9 +19,9 @@ export default function ProductDetailPage({product}: Props) {
     </>
   )
 }
-const getProductPriceData = () => {
+const getProductPriceData = async() => {
     const filePath = path.join(process.cwd(), 'dummy_backend.json');
-    const jsonData =  fs.readFile(filePath);
+    const jsonData =  await fs.readFile(filePath);
     const data = JSON.parse(jsonData.toString());
     return data
 }
@@ -49,7 +49,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
     const ids = data.products.map((product: any) => product.id);
     
-    const params = ids.map((id: string) => ({ params : { pid: id } }))
+    const params = ids.map((id: any) => ({ params : { pid: id+'' } }))
 
     return {
         // SSG로 미리 생성할 페이지의 경로를 지정한다.

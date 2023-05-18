@@ -18,6 +18,10 @@ interface Props {
 export default function PreRendering(props: Props) {
   const { products } = props;
   
+
+  if(!products) {
+    return <p>Loading...</p>
+  }
   return (
     <div className={classes.container}>
       <h1>Pre Rendering Page</h1>
