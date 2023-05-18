@@ -16,11 +16,21 @@ export default function FilteredEventsPage() {
       setEvents(filteredEvents);
     }
   }, [slug])
-  console.log(events);
   return (
+    
     <>
-      <ResultsTitle date={new Date(parseInt(slug[0]),parseInt(slug[1]))} />
-      <EventList items={events} />
+    {
+      slug
+      ? (
+        <>
+          <ResultsTitle date={new Date(parseInt(slug[0]),parseInt(slug[1]))} />
+          <EventList items={events} />
+        </>
+      )
+      : <p>Nothing</p>
+      
+    }
     </>
+    
   )
 }

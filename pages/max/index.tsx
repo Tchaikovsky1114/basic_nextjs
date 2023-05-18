@@ -36,14 +36,16 @@ export default function PreRendering(props: Props) {
 }
 
 export const getStaticProps: GetStaticProps = async (context) => {
+  console.log('(PreRendering) getStaticProps');
   // CWD means current work directory
   const filePath = path.join(process.cwd(), 'dummy_backend.json'); 
   const jsonData = await fs.readFile(filePath);
   const data = JSON.parse(jsonData.toString());
-  console.log(data);
+  
   return {
     props: {
       products: data.products
-    }
+    },
+    revalidate: 10
   };
 }
